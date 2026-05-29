@@ -1,0 +1,2 @@
+{"type":"sensor","name":"h1","name_iot":"sc01","ip":"10.0.0.1","state":"active","sensorType":"temperature"}
+{"type":"sensor","name":"h2","name_iot":"sc02","ip":"10.0.0.2","state":"active","sensorType":"light"}

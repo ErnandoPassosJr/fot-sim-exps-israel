@@ -1,0 +1,1 @@
+{"name":"sc01","ip":"10.0.0.1","type":"temperatureSensor","gateway":"10.0.0.2","name_gateway":"h2","collect":"15000","publish":"15000"}
