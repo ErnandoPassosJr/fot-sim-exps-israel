@@ -71,7 +71,7 @@ class virtualSensor():
                 datasetObject = DatasetUtils(path=self.dataset, column=self.datasetColumn,index=random.randint(0,total_linhas),window=4500)
             datasetIndex=0
             
-            if(envioInicio==0 and "registry" not in self.topicAgent):
+            if(envioInicio==0 and "raw" not in self.topicAgent):
                 envioInicio=1
                 print(datasetObject.getValue(2))
                 vet=[]
@@ -119,7 +119,7 @@ class virtualSensor():
                     
                     msgDict={"port":self.portAgent,"value":str(arrayValues),"timestamp":str(time.perf_counter())}
                     msgFinal=json.dumps(msgDict)
-                    if(envioMqtt==0):
+                    if(envioMqtt==0 and "raw" in self.topicAgent):
                         self.pub_client.publish(self.topicAgent, msgFinal)
                         envioMqtt=1
                     t = 0

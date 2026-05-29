@@ -188,10 +188,10 @@ if __name__ == '__main__':
 	init_gateways(net)
 	
 	#Iniciar sensores virtuais
-	init_sensors(net)
+	#init_sensors(net)
 	
 	#Iniciar fluxo de comunicacao
-	init_flow(net)
+	#init_flow(net)
 	
 	#init_servers(net)
 	

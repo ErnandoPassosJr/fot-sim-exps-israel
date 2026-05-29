@@ -35,7 +35,7 @@ class tatu_process(Process):
 
 def on_connect(mqttc, obj, flags, rc):
     topic = obj["topicPrefix"] + obj["deviceName"] + obj["topicReq"] + "/#"
-    mqttc.subscribe('iot/edge/registry/'+str(obj["portAgent"]))
+    mqttc.subscribe('iot/edge/registry/port_'+str(obj["portAgent"]))
     mqttc.subscribe(topic)
     #for sensor in obj['sensors']:
     #	print ("\t" + sensor['name'])
