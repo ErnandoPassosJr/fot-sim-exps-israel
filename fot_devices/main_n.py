@@ -1,9 +1,10 @@
 import paho.mqtt.client as mqtt
 import json
-
+import traceback
 from time import sleep
 from multiprocessing import Process
 import argparse
+import logging
 #You don't need to change this file. Just change sensors.py and config.json
 
 parser = argparse.ArgumentParser(description = 'Params sensors')
@@ -14,6 +15,14 @@ parser.add_argument('--datasetColumn', action = 'store', dest = 'datasetColumn',
 parser.add_argument('--latency', action = 'store', dest = 'latency', required = False)
 parser.add_argument('--port', action = 'store', dest = 'port', required = False)
 args = parser.parse_args()
+
+
+# Configuração do log
+logging.basicConfig(
+    filename='error.log',
+    level=logging.ERROR,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 
 #process list
 procs=[]
@@ -115,8 +124,8 @@ while True:
     data["datasetColumn"]=args.datasetColumn
     data["latency"]=args.latency
     data["portAgent"]=args.port
-    data["topicAgent"]="iot/edge/unknown/"+str(args.port)
-    topicLatency=topic = data["topicPrefix"] + data["deviceName"]+"/RES/#"
+    data["topicAgent"]="iot/edge/unknown/port_"+str(args.port)
+    topicLatency=data["topicPrefix"] + data["deviceName"]+"/RES/#"
     #for 2.0 and newer versions of paho-mqtt use that:
     sub_client =mqtt.Client(client_id=deviceName + "_sub", clean_session=True, userdata=None, protocol=mqtt.MQTTv31)
     #see changes in: https://github.com/eclipse/paho.mqtt.python/blob/master/docs/migrations.rst
@@ -134,6 +143,6 @@ while True:
     try:
         sub_client.connect(mqttBroker, mqttPort, 60)
         sub_client.loop_forever()
-    except:
-        print ("Broker unreachable on " + mqttBroker + " URL!")
+    except Exception:
+        logging.exception("Erro durante a execução")
         sleep(5)
