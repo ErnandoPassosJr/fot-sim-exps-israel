@@ -52,7 +52,7 @@ def on_message(mqttc, obj, msg):
             msgGl=msg
             init_sensor(obj,tatu_msg,msg)
     
-    if(msg.topic=="iot/edge/registry/"+str(obj["portAgent"])):
+    if(msg.topic=="iot/edge/registry/port_"+str(obj["portAgent"])):
         tatu_msg=json.loads(msg.payload)
         stop_sensor_agent()
         init_sensor_agent(tatu_msg)
