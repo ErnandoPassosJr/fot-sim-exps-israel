@@ -10,7 +10,7 @@ sys.path.append(str(Path.cwd())+"/datasets")
 from DatasetUtils import DatasetUtils
 from TATU import TatuReq, TatuRes
 import random
-random.seed(99)
+#random.seed(99)
 
 #You don't need to change this file. Just change sensors.py and config.json
 
@@ -78,7 +78,7 @@ class virtualSensor():
                 vet.append(datasetObject.getValue(random.randint(1,total_linhas-3)))
                 vet.append(datasetObject.getValue(random.randint(1,total_linhas-2)))
                 vet.append(datasetObject.getValue(random.randint(1,total_linhas-1)))
-                topicTemp="iot/edge/registry/port_"+str(self.portAgent)
+                topicTemp="iot/edge/unknown/port_"+str(self.portAgent)
                 msgDictTemp={"port":self.portAgent,"value":str(vet),"timestamp":str(time.perf_counter())}
                 msgFinalTemp=json.dumps(msgDictTemp)
                 self.pub_client.publish(topicTemp, msgFinalTemp)
