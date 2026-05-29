@@ -10,7 +10,7 @@ sys.path.append(str(Path.cwd())+"/datasets")
 from DatasetUtils import DatasetUtils
 from TATU import TatuReq, TatuRes
 import random
-random.seed(999)
+random.seed(99)
 
 #You don't need to change this file. Just change sensors.py and config.json
 
@@ -55,6 +55,8 @@ class virtualSensor():
 
     def buildFlowAnwserDevice(self):
         t = 0
+        envioInicio=0
+        envioMqtt=0
         try:
             if not self.sensorsList:
                 raise Exception("No sensors")
@@ -68,6 +70,19 @@ class virtualSensor():
             if(self.dataset!=None):
                 datasetObject = DatasetUtils(path=self.dataset, column=self.datasetColumn,index=random.randint(0,total_linhas),window=4500)
             datasetIndex=0
+            
+            if(envioInicio==0):
+                envioInicio=1
+                print(datasetObject.getValue(2))
+                vet=[]
+                vet.append(datasetObject.getValue(random.randint(1,total_linhas-3)))
+                vet.append(datasetObject.getValue(random.randint(1,total_linhas-2)))
+                vet.append(datasetObject.getValue(random.randint(1,total_linhas-1)))
+                topicTemp="iot/edge/registry/port_"+str(self.portAgent)
+                msgDictTemp={"port":self.portAgent,"value":str(vet),"timestamp":str(time.perf_counter())}
+                msgFinalTemp=json.dumps(msgDictTemp)
+                self.pub_client.publish(topicTemp, msgFinalTemp)
+            
             while True:
                 for i in self.sensorsList:
                     sensorName=i["name"]
@@ -104,7 +119,9 @@ class virtualSensor():
                     
                     msgDict={"port":self.portAgent,"value":str(arrayValues),"timestamp":str(time.perf_counter())}
                     msgFinal=json.dumps(msgDict)
-                    self.pub_client.publish(self.topicAgent, msgFinal)
+                    if(envioMqtt==0):
+                        self.pub_client.publish(self.topicAgent, msgFinal)
+                        envioMqtt=1
                     t = 0
                     arrayValues = []
                 sleep(int(self.collectTime)/1000)
