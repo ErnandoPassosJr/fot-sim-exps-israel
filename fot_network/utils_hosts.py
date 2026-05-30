@@ -24,6 +24,20 @@ def return_hosts():
 		hosts.append(to_object(st2[i]))
 	return hosts
 
+
+def return_hosts_json():
+	f=open(data_hosts,'r')
+	lines=len(f.readlines())
+	f.close()
+	f=open(data_hosts,'r')
+	st2=[]
+	st2=f.readlines()
+	f.close()
+	hosts=[]
+	for i in range(0,(lines)):
+		hosts.append(st2[i])
+	return hosts
+
 def return_association():
 	f=open(association_hosts,'r')
 	lines=len(f.readlines())

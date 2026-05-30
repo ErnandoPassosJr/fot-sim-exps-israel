@@ -179,6 +179,11 @@ def init_flow(net):
         net.get(s[i].name).cmd("mosquitto_pub -h '"+str(args.broker)+"' -t 'dev/"+s[i].name_iot+"/REQ' -m '"+tatuMessage.getTatu()+"'")
         time.sleep(0.4)
         ind+=1
+    st=utils_hosts.return_hosts_json()
+    for i in range(0,len(st)):
+        st[i]=st[i].replace("\n", "")
+        net.get(s[i].name).cmd("mosquitto_pub -h '"+str(args.broker)+"' -t 'iot/edge/config/hosts' -m '"+str(st[i])+"'")
+        time.sleep(0.3)
 
 
 
