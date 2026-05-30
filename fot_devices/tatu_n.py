@@ -81,7 +81,7 @@ class virtualSensor():
                 topicTemp="iot/edge/unknown/port_"+str(self.portAgent)
                 msgDictTemp={"port":self.portAgent,"value":str(vet),"timestamp":str(time.perf_counter())}
                 msgFinalTemp=json.dumps(msgDictTemp)
-                self.pub_client.publish(topicTemp, msgFinalTemp,retain=True)
+                self.pub_client.publish(topicTemp, msgFinalTemp)
             
             while True:
                 for i in self.sensorsList:
@@ -120,7 +120,7 @@ class virtualSensor():
                     msgDict={"port":self.portAgent,"value":str(arrayValues),"timestamp":str(time.perf_counter())}
                     msgFinal=json.dumps(msgDict)
                     if(envioMqtt==0 and "raw" in self.topicAgent):
-                        self.pub_client.publish(self.topicAgent, msgFinal,retain=True)
+                        self.pub_client.publish(self.topicAgent, msgFinal)
                         envioMqtt=1
                     t = 0
                     arrayValues = []
