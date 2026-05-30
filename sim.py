@@ -173,17 +173,21 @@ def init_flow(net):
     ind=0
     
     s=utils_hosts.return_hosts_per_type('sensor')
+
+    st=utils_hosts.return_hosts_json()
+    for i in range(0,len(st)):
+        st[i]=st[i].replace("\n", "")
+        net.get(s[i].name).cmd("mosquitto_pub -h '"+str(args.broker)+"' -t 'iot/edge/config/hosts' -m '"+str(st[i])+"' -r")
+        time.sleep(0.3)
+
+    time.sleep(2)
+
     for i in range(0,len(s)):
         tatuMessage = TatuReq("FLOW",collect=col,publish=pub,sensor=s[i].sensorType,device=s[i].name_iot)
         #print("mosquitto_pub -h "+str(args.broker)+" -m "+tatuMessage.getTatu())
         net.get(s[i].name).cmd("mosquitto_pub -h '"+str(args.broker)+"' -t 'dev/"+s[i].name_iot+"/REQ' -m '"+tatuMessage.getTatu()+"'")
         time.sleep(0.4)
         ind+=1
-    st=utils_hosts.return_hosts_json()
-    for i in range(0,len(st)):
-        st[i]=st[i].replace("\n", "")
-        net.get(s[i].name).cmd("mosquitto_pub -h '"+str(args.broker)+"' -t 'iot/edge/config/hosts' -m '"+str(st[i])+"'")
-        time.sleep(0.3)
 
 
 
