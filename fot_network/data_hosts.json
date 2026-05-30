@@ -1,2 +1,8 @@
 {"type":"sensor","name":"h1","name_iot":"sc01","ip":"10.0.0.1","state":"active","sensorType":"temperature"}
-{"type":"sensor","name":"h2","name_iot":"sc02","ip":"10.0.0.2","state":"active","sensorType":"light"}
+{"type":"sensor","name":"h2","name_iot":"sc02","ip":"10.0.0.2","state":"active","sensorType":"temperature"}
+{"type":"sensor","name":"h3","name_iot":"sc03","ip":"10.0.0.3","state":"active","sensorType":"temperature"}
+{"type":"sensor","name":"h4","name_iot":"sc04","ip":"10.0.0.4","state":"active","sensorType":"light"}
+{"type":"sensor","name":"h5","name_iot":"sc05","ip":"10.0.0.5","state":"active","sensorType":"light"}
+{"type":"sensor","name":"h6","name_iot":"sc06","ip":"10.0.0.6","state":"active","sensorType":"humidity"}
+{"type":"sensor","name":"h7","name_iot":"sc07","ip":"10.0.0.7","state":"active","sensorType":"humidity"}
+{"type":"sensor","name":"h8","name_iot":"sc08","ip":"10.0.0.8","state":"active","sensorType":"voltage"}
