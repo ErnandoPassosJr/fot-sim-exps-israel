@@ -12,6 +12,9 @@ import random
 def humidity():
     return random.randint(10, 70)
 
+def voltage():
+    return random.randint(10, 70)
+
 def humiditySensor():
     return random.randint(10, 70)
 
