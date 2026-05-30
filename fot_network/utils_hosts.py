@@ -7,8 +7,8 @@ association_hosts="fot_network/association_hosts.json"
 config_tatu="config.json"
 
 class to_object(object):
-	def __init__(self, j):
-		self.__dict__ = json.loads(j)
+    def __init__(self, j):
+        self.__dict__ = json.loads(j)
 			
 
 def return_hosts():
@@ -52,7 +52,23 @@ def write_host(st):
 	x.write(st+"\n")
 	x.close()
 
-
+def generate_data_hosts(args):
+    h=[]
+    x=open(data_hosts,'w')
+    x.close()
+    sensorType=["temperature","humidity","light","voltage"]
+    indiceSensor=0
+    for i in range(0,int(args.sensor)):
+        st=""
+        if((i+1)<10):
+            st="{\"type\":\"sensor\",\"name\":\"h"+str(i+1)+"\",\"name_iot\":\"sc0"+str(i+1)+"\",\"ip\":\"10.0.0."+str(i+1)+"\",\"sensorType\":\""+str(sensorType[indiceSensor])+"\"}"
+        else:
+            st="{\"type\":\"sensor\",\"name\":\"h"+str(i+1)+"\",\"name_iot\":\"sc"+str(i+1)+"\",\"ip\":\"10.0.0."+str(i+1)+"\",\"sensorType\":\""+str(sensorType[indiceSensor])+"\"}"
+        write_host(st)
+        indiceSensor+=1
+        if(indiceSensor==(len(sensorType))):
+            indiceSensor=0
+            
 def write_hosts(h):
 	for i in range(0,len(h)):
 		write_host(json.dumps(h[i]))

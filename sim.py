@@ -22,6 +22,8 @@ parser = argparse.ArgumentParser(description = 'Params sensors')
 parser.add_argument('--broker', action = 'store', dest = 'broker', required = True)
 parser.add_argument('--collect', action = 'store', dest = 'collect', required = True)
 parser.add_argument('--pub', action = 'store', dest = 'pub', required = True)
+parser.add_argument('--sensor', action = 'store', dest = 'sensor', required = True)
+
 args = parser.parse_args()
 
 
@@ -150,8 +152,7 @@ def init_sensors(net):
 	#tipos de sensores no arquivo sensors.py, ex: temperatureSensor, soilmoistureSensor, solarradiationSensor, ledActuator
     s=utils_hosts.return_hosts_per_type('sensor')
     ass=utils_hosts.return_association()
-    datasetColumn="light"
-    dataset="datasets/"+datasetColumn+"1.csv"
+    dataset=""
     for i in range(0,len(s)):
         datasetColumn=str(s[i].sensorType)
         dataset="datasets/"+datasetColumn+"1.csv"
@@ -174,38 +175,42 @@ def init_flow(net):
     s=utils_hosts.return_hosts_per_type('sensor')
     for i in range(0,len(s)):
         tatuMessage = TatuReq("FLOW",collect=col,publish=pub,sensor=s[i].sensorType,device=s[i].name_iot)
-        print("mosquitto_pub -h "+str(args.broker)+" -m "+tatuMessage.getTatu())
+        #print("mosquitto_pub -h "+str(args.broker)+" -m "+tatuMessage.getTatu())
         net.get(s[i].name).cmd("mosquitto_pub -h '"+str(args.broker)+"' -t 'dev/"+s[i].name_iot+"/REQ' -m '"+tatuMessage.getTatu()+"'")
-        time.sleep(0.3)
+        time.sleep(0.4)
         ind+=1
 
 
+
 if __name__ == '__main__':
-	lg.setLogLevel( 'info')
-	net = Mininet(link=TCLink)
-	#criar switches, hosts e topologia
-	create_topo.create(net)
-	
-	# Configurar e iniciar comunicacao externa
-	rootnode = connectToInternet( net )
-	
-	init_gateways(net)
-	
-	#Iniciar sensores virtuais
-	init_sensors(net)
-	
-	#Iniciar fluxo de comunicacao
-	init_flow(net)
-	
-	#init_servers(net)
-	
-	
-	#init_servers(net)
-	net.start()
-	CLI( net )
-	# Shut down NAT
-	stopNAT( rootnode )
-	#stop_gateways(net)
-	#time.sleep(15)
-    
-	net.stop()
+    lg.setLogLevel( 'info')
+    net = Mininet(link=TCLink)
+    #criar switches, hosts e topologia
+    create_topo.create(net)
+
+    # Configurar e iniciar comunicacao externa
+    rootnode = connectToInternet( net )
+
+    init_gateways(net)
+
+    #generate data_hosts
+    utils_hosts.generate_data_hosts(args)
+
+    #Iniciar sensores virtuais
+    init_sensors(net)
+
+    #Iniciar fluxo de comunicacao
+    init_flow(net)
+
+    #init_servers(net)
+
+
+    #init_servers(net)
+    net.start()
+    CLI( net )
+    # Shut down NAT
+    stopNAT( rootnode )
+    #stop_gateways(net)
+    #time.sleep(15)
+
+    net.stop()
