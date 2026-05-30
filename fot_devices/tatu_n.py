@@ -73,12 +73,14 @@ class virtualSensor():
             
             if(envioInicio==0 and "raw" not in self.topicAgent):
                 envioInicio=1
-                print(datasetObject.getValue(2))
+                #print(datasetObject.getValue(2))
                 vet=[]
-				indiceTemp=datasetObject.getValue(random.randint(1,total_linhas-3))
-                vet.append(indiceTemp)
-                vet.append(indiceTemp-2)
-                vet.append(indiceTemp-1)
+                indiceTemp=random.randint(1,total_linhas-3)
+                print("indice",indiceTemp)
+                vet.append(datasetObject.getValue(indiceTemp))
+                vet.append(datasetObject.getValue(indiceTemp-2))
+                vet.append(datasetObject.getValue(indiceTemp-1))
+                print(vet)
                 topicTemp="iot/edge/unknown/port_"+str(self.portAgent)
                 msgDictTemp={"port":self.portAgent,"value":str(vet),"timestamp":str(time.perf_counter())}
                 msgFinalTemp=json.dumps(msgDictTemp)
