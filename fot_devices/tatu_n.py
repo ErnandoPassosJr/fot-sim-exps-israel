@@ -83,10 +83,10 @@ class virtualSensor():
                 envioInicio=1
                 #print(datasetObject.getValue(2))
                 vet=[]
-                indiceTemp=random.randint(1,total_linhas-3)
-                vet.append(datasetObject.getValue(indiceTemp)) #Alteração 3
-                vet.append(datasetObject.getValue(indiceTemp+1)) #Alteração 3
-                vet.append(datasetObject.getValue(indiceTemp+2)) #Alteração 3
+                #indiceTemp=random.randint(1,total_linhas-3) #Alteração 3
+                vet.append(datasetObject.getValue(indiceInicial)) #Alteração 3
+                vet.append(datasetObject.getValue(indiceInicial+1)) #Alteração 3
+                vet.append(datasetObject.getValue(indiceInicial+2)) #Alteração 3
                 topicTemp="iot/edge/unknown/port_"+str(self.portAgent)
                 msgDictTemp={"port":self.portAgent,"value":str(vet),"timestamp":str(time.perf_counter())}
                 msgFinalTemp=json.dumps(msgDictTemp)
