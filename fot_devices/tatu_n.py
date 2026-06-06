@@ -76,11 +76,9 @@ class virtualSensor():
                 #print(datasetObject.getValue(2))
                 vet=[]
                 indiceTemp=random.randint(1,total_linhas-3)
-                print("indice",indiceTemp)
                 vet.append(datasetObject.getValue(indiceTemp))
                 vet.append(datasetObject.getValue(indiceTemp-2))
                 vet.append(datasetObject.getValue(indiceTemp-1))
-                print(vet)
                 topicTemp="iot/edge/unknown/port_"+str(self.portAgent)
                 msgDictTemp={"port":self.portAgent,"value":str(vet),"timestamp":str(time.perf_counter())}
                 msgFinalTemp=json.dumps(msgDictTemp)
@@ -279,6 +277,7 @@ def main(data, msg):
     topicAgent=data["topicAgent"]
     portAgent=data["portAgent"]
     msgJson = json.loads(msg.payload)
+    random.seed(int(portAgent))
     if(msgJson.get('sensor')!=None):
         sensorName = msgJson["sensor"]
     met = msgJson["method"]
