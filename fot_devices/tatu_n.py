@@ -68,12 +68,12 @@ class virtualSensor():
                 total_linhas = sum(1 for _ in f)
 
 			#Alteração 1
-			indiceInicial = random.randint(1, total_linhas - 1001)
+            indiceInicial = random.randint(1, total_linhas - 1001)
 
 		    #Alteração 2, index fixo no offset sorteado (sem random aqui, para não desalinhar a sequência entre os dois processos)
-			if(self.dataset!=None):
-            	datasetObject = DatasetUtils(path=self.dataset, column=self.datasetColumn, index=indiceInicial, window=4500)
-        	datasetIndex = indiceInicial   # operação começa NO MESMO ponto
+            if(self.dataset!=None):
+                datasetObject = DatasetUtils(path=self.dataset, column=self.datasetColumn, index=indiceInicial, window=4500)
+            datasetIndex = indiceInicial   # operação começa NO MESMO ponto
             
 			#if(self.dataset!=None):
             #    datasetObject = DatasetUtils(path=self.dataset, column=self.datasetColumn,index=random.randint(0,total_linhas),window=4500)
