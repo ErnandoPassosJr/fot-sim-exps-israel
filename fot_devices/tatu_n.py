@@ -66,19 +66,27 @@ class virtualSensor():
             total_linhas=0
             with open(self.dataset, "r", encoding="utf-8") as f:
                 total_linhas = sum(1 for _ in f)
-                
-            if(self.dataset!=None):
-                datasetObject = DatasetUtils(path=self.dataset, column=self.datasetColumn,index=random.randint(0,total_linhas),window=4500)
-            datasetIndex=indiceTemp
+
+			#Alteração 1
+			indiceInicial = random.randint(1, total_linhas - 1001)
+
+		    #Alteração 2, index fixo no offset sorteado (sem random aqui, para não desalinhar a sequência entre os dois processos)
+			if(self.dataset!=None):
+            	datasetObject = DatasetUtils(path=self.dataset, column=self.datasetColumn, index=indiceInicial, window=4500)
+        	datasetIndex = indiceInicial   # operação começa NO MESMO ponto
+            
+			#if(self.dataset!=None):
+            #    datasetObject = DatasetUtils(path=self.dataset, column=self.datasetColumn,index=random.randint(0,total_linhas),window=4500)
+            #datasetIndex=indiceTemp
             
             if(envioInicio==0 and "raw" not in self.topicAgent):
                 envioInicio=1
                 #print(datasetObject.getValue(2))
                 vet=[]
                 indiceTemp=random.randint(1,total_linhas-3)
-                vet.append(datasetObject.getValue(indiceTemp))
-                vet.append(datasetObject.getValue(indiceTemp+1))
-                vet.append(datasetObject.getValue(indiceTemp+2))
+                vet.append(datasetObject.getValue(indiceTemp)) #Alteração 3
+                vet.append(datasetObject.getValue(indiceTemp+1)) #Alteração 3
+                vet.append(datasetObject.getValue(indiceTemp+2)) #Alteração 3
                 topicTemp="iot/edge/unknown/port_"+str(self.portAgent)
                 msgDictTemp={"port":self.portAgent,"value":str(vet),"timestamp":str(time.perf_counter())}
                 msgFinalTemp=json.dumps(msgDictTemp)
