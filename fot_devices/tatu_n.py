@@ -69,7 +69,7 @@ class virtualSensor():
                 
             if(self.dataset!=None):
                 datasetObject = DatasetUtils(path=self.dataset, column=self.datasetColumn,index=random.randint(0,total_linhas),window=4500)
-            datasetIndex=0
+            datasetIndex=indiceTemp
             
             if(envioInicio==0 and "raw" not in self.topicAgent):
                 envioInicio=1
@@ -77,8 +77,8 @@ class virtualSensor():
                 vet=[]
                 indiceTemp=random.randint(1,total_linhas-3)
                 vet.append(datasetObject.getValue(indiceTemp))
-                vet.append(datasetObject.getValue(indiceTemp-2))
-                vet.append(datasetObject.getValue(indiceTemp-1))
+                vet.append(datasetObject.getValue(indiceTemp+1))
+                vet.append(datasetObject.getValue(indiceTemp+2))
                 topicTemp="iot/edge/unknown/port_"+str(self.portAgent)
                 msgDictTemp={"port":self.portAgent,"value":str(vet),"timestamp":str(time.perf_counter())}
                 msgFinalTemp=json.dumps(msgDictTemp)
